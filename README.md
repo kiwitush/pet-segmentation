@@ -94,6 +94,15 @@ python eval/evaluate.py --checkpoint checkpoints/unet_ce_best.pt
 python eval/visualize.py --checkpoint checkpoints/unet_ce_best.pt --num-samples 6
 ```
 
+## 模型架构 (U-Net)
+
+- **编码器**: 64→128→256→512→1024 通道下采样
+- **瓶颈**: 1024 通道
+- **解码器**: 1024→512→256→128→64 通道上采样
+- **Skip Connection**: 编码器各层特征与解码器对应层拼接
+- **输出**: 1×1 卷积 → 3 通道 logits
+- **上采样方式**: 转置卷积
+
 ## 实验设置
 
 | 项目 | 配置 |
@@ -105,26 +114,16 @@ python eval/visualize.py --checkpoint checkpoints/unet_ce_best.pt --num-samples 
 | Batch Size | 8 |
 | 学习率 | 5e-4 |
 | 优化器 | AdamW (weight_decay=5e-3) |
-| 学习率调度 | CosineAnnealingLR |
-| Epoch | 80 |
+| 学习率调度 | 余弦衰减 |
+| Max epoch | 80 |
 | 评价指标 | mIoU |
-
-## 模型架构
-
-- **编码器**: 64→128→256→512→1024 通道下采样
-- **瓶颈**: 1024 通道
-- **解码器**: 1024→512→256→128→64 通道上采样
-- **Skip Connection**: 编码器各层特征与解码器对应层拼接
-- **输出**: 1×1 卷积 → 3 通道 logits
-- **上采样方式**: 转置卷积
 
 ## 训练监控
 
 训练过程中 SwanLab 会实时记录：
-
 - 训练集 loss 曲线
 - 验证集 loss 曲线
 - 验证集 mIoU 曲线
 - 学习率变化曲线
 
-在 SwanLab 网页端查看：https://swanlab.cn
+训练开始会自动输出 swanlab 链接，可实时监控训练曲线。
