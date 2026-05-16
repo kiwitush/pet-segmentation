@@ -1,0 +1,15 @@
+data/
+checkpoints/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+.DS_Store
+Thumbs.db
+CLAUDE.md
+.claude/
+report.md
